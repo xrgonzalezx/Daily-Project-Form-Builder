@@ -85,62 +85,65 @@ let formData = [
 // HINTS:
 // As you can see, we access the first element in the array
 // with [0] and then grab the property "label" using the "." operator
-( function(){
-// Select the first element from the array
-  let first = formData[ 0 ];
+(function() {
+  // Select the first element from the array
+  let first = formData[0];
   // Log the first object
-  console.log( first );
+  console.log(first);
   // Log the string "First Name"
-  console.log( first.label );
-
-  let inputEle = document.createElement("input")
-  inputEle.type = first.type
-  inputEle.placeholder = first.label
-  fields.appendChild(inputEle);
-
-} )();
+  console.log(first.label);
+})();
 
 
 // -------- Your Code Goes Below this Line --------
+let fields = document.querySelector("#fields");
 
-( function(){
-  let last = formData[ 1 ];
-  console.log( last );
-  console.log( last.label );
-} )();
+for (i = 0; i < formData.length; i++) {
 
-( function(){
-  let email = formData[ 2 ];
-  console.log( email );
-  console.log( email.label );
-} )();
+  let input = document.createElement("input");
 
-( function(){
-  let userwebsite = formData[ 3 ];
-  console.log( userwebsite );
-  console.log( userwebsite.label );
-} )();
+  if (formData[i].label != "Select Language") {
+    if (formData[i].type != "textarea") {
 
-( function(){
-  let userlan = formData[ 4 ];
-  console.log( userlan );
-  console.log( userlan.label );
-} )();
 
-( function(){
-  let usercomment = formData[ 5 ];
-  console.log( usercomment );
-  console.log( usercomment.label );
-} )();
+      input.setAttribute("type", formData[i].type);
+      input.setAttribute("placeholder", formData[i].label);
+      input.setAttribute("id", formData[i].id);
+      input.setAttribute("fa-", formData[i].icon);
 
-( function(){
-  let usermobile = formData[ 6 ];
-  console.log( usermobile );
-  console.log( usermobile.label );
-} )();
+      fields.appendChild(input);
+    }
+  }
 
-( function(){
-  let userphone = formData[ 7 ];
-  console.log( userphone );
-  console.log( userphone.label );
-} )();
+  if (formData[i].options.length > 0) {
+    let dropdown = document.createElement("select");
+
+    let selectOption = `${formData[i].label}`
+    let option = document.createElement("option");
+    option.setAttribute("selected", "true");
+    option.setAttribute("disabled", "disabled");
+    option.innerHTML = `${selectOption}`;
+
+
+    dropdown.appendChild(option);
+
+    for (a = 0; a < formData[i].options.length; a++) {
+      let dropdownOption = document.createElement("option");
+
+      dropdownOption.setAttribute("value", formData[i].options[a].value);
+      dropdownOption.innerHTML = formData[i].options[a].label;
+      dropdown.appendChild(dropdownOption);
+      fields.appendChild(dropdown);
+
+    }
+
+  }
+
+  if (formData[i].type === "textarea") {
+    let textarea = document.createElement("textarea");
+    textarea.setAttribute("placeholder", `${formData[i].label}`);
+
+    fields.appendChild(textarea);
+  }
+}
+console.log(fields);
